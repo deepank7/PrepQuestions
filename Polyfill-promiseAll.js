@@ -29,3 +29,8 @@ const myPromiseAll = function(taskList) {
         })
     });
 }
+
+const taskList = [task(1000), task(5000), task(3000)]; 
+//run promise.all 
+myPromiseAll(taskList) .then(results => { console.log("got results", results) }).catch(console.error); 
+ //"got results" [1000,5000,3000]
