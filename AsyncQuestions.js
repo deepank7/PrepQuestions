@@ -1,7 +1,8 @@
 // Implement a function that takes a list of async functions as input and executes them in a series that is one at a time.
 // The next task isexecuted only when the previous task is completed
 
-const asyncSeriesExecuter = async function (promises) {
+// Approach 1: Using async await
+const asyncSeriesExecuter1 = async function (promises) {
   for (let promise of promises) {
     try {
       const result = await promise;
@@ -12,16 +13,47 @@ const asyncSeriesExecuter = async function (promises) {
   }
 };
 
-const asyncTask = function (i) {
+const asyncTask1 = function (i) {
   return new Promise((resolve, reject) => {
     setTimeout(() => resolve(`Completing ${i}`), 100 * i);
   });
 };
-const promises = [
-  asyncTask(3),
-  asyncTask(1),
-  asyncTask(7),
-  asyncTask(2),
-  asyncTask(5),
+const promises1 = [
+  asyncTask1(3),
+  asyncTask1(1),
+  asyncTask1(7),
+  asyncTask1(2),
+  asyncTask1(5),
 ];
-asyncSeriesExecuter(promises);
+asyncSeriesExecuter1(promises1);
+
+
+// Approach 2: Using recursion
+const asyncSeriesExecuter2 = function (promises) {
+  // get the top task
+  let promise = promises.shift();
+
+  promise.then((data) => {
+    //print the result
+    console.log(data);
+
+    //recursively call the same function
+    if (promises.length > 0) {
+      asyncSeriesExecuter(promises);
+    }
+  });
+};
+
+const asyncTask2 = function (i) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve(`Completing ${i}`), 100 * i);
+  });
+};
+const promises2 = [
+  asyncTask2(3),
+  asyncTask2(1),
+  asyncTask2(7),
+  asyncTask2(2),
+  asyncTask2(5),
+];
+asyncSeriesExecuter2(promises2);
